@@ -1,14 +1,6 @@
 // ===== EDIT HERE. Empty "" values are skipped automatically. =====
-var LINKS = { formspree: "", booking: "", email: "johnleonardmanadia@gmail.com", linkedin: "", facebook: "", response: "" };   // response example: "24-48 hours"
-var WORKS = [   // img: screenshot path, demo: live link, cat: "Funnel" or "Website" (decides which button shows it; default Funnel)
-  { title: "Project name", type: "Type of funnel", industry: "Industry", img: "", demo: "", cat: "Funnel" },
-  { title: "Project name", type: "Type of funnel", industry: "Industry", img: "", demo: "", cat: "Funnel" },
-  { title: "Project name", type: "Type of funnel", industry: "Industry", img: "", demo: "", cat: "Funnel" },
-  { title: "Project name", type: "Type of funnel", industry: "Industry", img: "", demo: "", cat: "Funnel" },
-  { title: "Project name", type: "Type of website", industry: "Industry", img: "", demo: "", cat: "Website" },
-  { title: "Project name", type: "Type of website", industry: "Industry", img: "", demo: "", cat: "Website" },
-  { title: "Project name", type: "Type of website", industry: "Industry", img: "", demo: "", cat: "Website" }
-];
+   // response example: "24-48 hours"
+
 
 document.documentElement.classList.add("js");
 document.querySelectorAll("[data-book]").forEach(function (a) {
@@ -145,18 +137,40 @@ document.querySelectorAll(".rv").forEach(function (el) { io.observe(el); });
 function u(){var k=c.children[1]?c.children[1].offsetLeft-c.children[0].offsetLeft:1,x=Math.round(c.scrollLeft/k);x=Math.max(0,Math.min(n-1,x));[].forEach.call(d.children,function(e,j){e.className=j===x?"on":""})}
 c.addEventListener("scroll",u,{passive:true});u()})();
 
-var TESTIMONIALS = [];   // add REAL ones only: { quote: "...", name: "...", role: "Client, Business" }
 (function () {
-  var TM = TESTIMONIALS.length ? TESTIMONIALS : [0, 1, 2].map(function () { return { quote: "Your first client’s feedback will appear here.", name: "Client name", role: "Role, Business", ph: true }; });
-  var tg = document.getElementById("tgrid"), tpg = document.getElementById("tpg"), tpi = document.getElementById("tpi"), tpn = 0, TPER = 3, tpages = Math.ceil(TM.length / TPER);
-  function showT() {
-    tg.innerHTML = "";
-    TM.slice(tpn * TPER, tpn * TPER + TPER).forEach(function (t) { var q = document.createElement("blockquote"), c = document.createElement("cite"), s = document.createElement("small"); if (t.ph) q.className = "ph"; q.append(document.createTextNode(t.quote)); c.append(document.createTextNode(t.name)); s.textContent = t.role || ""; c.append(s); q.append(c); tg.append(q); });
-    tpg.hidden = tpages < 2; tpi.textContent = (tpn + 1) + " / " + tpages;
+  var TM = TESTIMONIALS.length ? TESTIMONIALS : [{ ph: true, quote: "Your first client’s feedback will appear here.", name: "Client Name", role: "Role, Business" }];
+  function mk(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
+  function avatar(t) {
+    var a = mk("span", "av"), ini = (t.name || "?").split(/\s+/).map(function (w) { return w.charAt(0); }).slice(0, 2).join("").toUpperCase();
+    a.append(mk("b", "", ini));
+    if (t.photo) { var im = document.createElement("img"); im.alt = (t.name || "Client") + " photo"; im.loading = "lazy"; im.onerror = function () { im.remove(); }; im.src = t.photo; a.append(im); }
+    return a;
   }
-  document.getElementById("tprev").onclick = function () { tpn = (tpn - 1 + tpages) % tpages; showT(); };
-  document.getElementById("tnext").onclick = function () { tpn = (tpn + 1) % tpages; showT(); };
-  showT();
+  function tcard(t, big) {
+    var q = mk("figure", "tc" + (big ? " big" : "") + (t.ph ? " ph" : ""));
+    q.append(mk("span", "qm", "“"));
+    if (t.ph) q.append(mk("span", "soon", "Sample slot"));
+    if (t.rating) { var s = mk("div", "stars", "★★★★★".slice(0, Math.max(1, Math.min(5, t.rating)))); s.setAttribute("aria-label", t.rating + " out of 5 stars"); q.append(s); }
+    q.append(mk("blockquote", "", t.quote));
+    var f = mk("figcaption"), w = mk("div"); f.append(avatar(t)); w.append(mk("b", "", t.name)); w.append(mk("small", "", t.role || ""));
+    if (t.tag) w.append(mk("em", "tg", t.tag + " project")); f.append(w); q.append(f); return q;
+  }
+  var tk = document.getElementById("ttrack"), td = document.getElementById("tdots"), tpv = document.getElementById("tprev"), tnx = document.getElementById("tnext"), others = TM;
+  others.forEach(function (t, i) { tk.append(tcard(t)); td.append(document.createElement("i")); });
+  if (!others.length) document.querySelector(".tcar").hidden = td.hidden = true;
+  function step() { var c = tk.children[0]; return c ? c.getBoundingClientRect().width + 19 : 300; }
+  function tupd() {
+    var i = Math.round(tk.scrollLeft / step()), max = tk.scrollWidth - tk.clientWidth - 2;
+    [].forEach.call(td.children, function (d, j) { d.className = j === i ? "on" : ""; });
+    tpv.disabled = tk.scrollLeft <= 2; tnx.disabled = tk.scrollLeft >= max;
+  }
+  tpv.onclick = function () { tk.scrollBy({ left: -step(), behavior: "smooth" }); };
+  tnx.onclick = function () { tk.scrollBy({ left: step(), behavior: "smooth" }); };
+  tk.addEventListener("scroll", tupd, { passive: true }); window.addEventListener("resize", tupd); tupd();
+  var tx0 = 0, ts0 = 0, tdn = false;
+  tk.addEventListener("pointerdown", function (e) { if (e.pointerType !== "mouse") return; tdn = true; tx0 = e.clientX; ts0 = tk.scrollLeft; tk.style.scrollSnapType = "none"; });
+  window.addEventListener("pointermove", function (e) { if (tdn) tk.scrollLeft = ts0 - (e.clientX - tx0); });
+  window.addEventListener("pointerup", function () { if (!tdn) return; tdn = false; tk.style.scrollSnapType = ""; });
   if (LINKS.email) document.getElementById("tmail").href = "mailto:" + LINKS.email + "?subject=" + encodeURIComponent("My testimonial for John Leonard");
   var bg = document.getElementById("bg"), mn = document.getElementById("mn");
   function menu(o) { mn.classList.toggle("open", o); bg.classList.toggle("x", o); bg.setAttribute("aria-expanded", o); bg.setAttribute("aria-label", o ? "Close menu" : "Open menu"); }
