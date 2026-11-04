@@ -8,8 +8,8 @@ var LINKS = { formspree: "", booking: "", email: "johnleonardmanadia@gmail.com",
 // 2) WORKS: your projects. img = screenshot file, demo = live link,
 //    cat = "Funnel" or "Website".
 var WORKS = [   // img: screenshot path, demo: live link, cat: "Funnel" or "Website" (decides which button shows it; default Funnel)
-  { title: "Project name", type: "Type of funnel", industry: "Industry", img: "", demo: "", cat: "Funnel" },
-  { title: "Project name", type: "Type of funnel", industry: "Industry", img: "", demo: "", cat: "Funnel" },
+  { title: "BrightSmile Dental Clinic", type: "Dental Appointment Booking Funnel", industry: "Healthcare / Dental Clinic", img: "assets/mockuppics/pic1.png", demo: "", cat: "Funnel" },
+  { title: "IronCore – Gym Membership Landing Page", type: "Lead Generation Funnel", industry: "Health & Fitness", img: "assets/mockuppics/pic2.png", demo: "", cat: "Funnel" },
   { title: "Project name", type: "Type of funnel", industry: "Industry", img: "", demo: "", cat: "Funnel" },
   { title: "Project name", type: "Type of funnel", industry: "Industry", img: "", demo: "", cat: "Funnel" },
   { title: "Project name", type: "Type of website", industry: "Industry", img: "", demo: "", cat: "Website" },
