@@ -12,7 +12,7 @@ var WORKS = [   // img: screenshot path, demo: live link, cat: "Funnel" or "Webs
   { title: "IronCore – Gym Membership Landing Page", type: "Lead Generation Funnel", industry: "Health & Fitness", img: "assets/mockuppics/pic2.png", demo: "", cat: "Funnel" },
   { title: "Project name", type: "Type of funnel", industry: "Industry", img: "", demo: "", cat: "Funnel" },
   { title: "Project name", type: "Type of funnel", industry: "Industry", img: "", demo: "", cat: "Funnel" },
-  { title: "Project name", type: "Type of website", industry: "Industry", img: "", demo: "", cat: "Website" },
+  { title: "Island Paws Veterinary Clinic Website", type: "Business Website / Responsive Website", industry: "Veterinary / Pet Healthcare", img: "assets/mockuppics/pic3.png", demo: "", cat: "Website" },
   { title: "Project name", type: "Type of website", industry: "Industry", img: "", demo: "", cat: "Website" },
   { title: "Project name", type: "Type of website", industry: "Industry", img: "", demo: "", cat: "Website" }
 ];
